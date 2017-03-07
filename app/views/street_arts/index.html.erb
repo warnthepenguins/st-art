@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Street Arts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @street_arts.each do |street_art| %>
+      <tr>
+        <td><%= street_art.title %></td>
+        <td><%= street_art.artist %></td>
+        <td><%= link_to 'Show', street_art %></td>
+        <td><%= link_to 'Edit', edit_street_art_path(street_art) %></td>
+        <td><%= link_to 'Destroy', street_art, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Street Art', new_street_art_path %>

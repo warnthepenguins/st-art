@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @street_art.title %>
+</p>
+
+<p>
+  <strong>Artist:</strong>
+  <%= @street_art.artist %>
+</p>
+
+<%= image_tag(@street_art.image_url.to_s) %>
+
+<%= link_to 'Edit', edit_street_art_path(@street_art) %> |
+<%= link_to 'Back', street_arts_path %>
