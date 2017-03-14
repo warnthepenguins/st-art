@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :likes
   root 'street_arts#index'
   devise_for :users
   resources :street_arts
