@@ -14,7 +14,7 @@ class LikesController < ApplicationController
 
   # GET /likes/new
   def new
-    @like = Like.new
+    @like = Like.new(street_art: StreetArt.find(params[:street_art_id]))
   end
 
   # GET /likes/1/edit
@@ -25,10 +25,12 @@ class LikesController < ApplicationController
   # POST /likes.json
   def create
     @like = Like.new(like_params)
+    @like.street_art = StreetArt.find(params[:street_art_id])
+    @like.user = current_user
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to @like, notice: 'Like was successfully created.' }
+        format.html { redirect_to @like.street_art, notice: 'Like was successfully created.' }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
