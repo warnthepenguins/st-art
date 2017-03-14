@@ -12,7 +12,7 @@
 
 <style>
   #map {
-    width: 30%;
+    width: 45%;
     height: 200px;
     background-color: grey;
   }
@@ -45,7 +45,7 @@
 <% end %>
 <%= link_to 'Back', street_arts_path %>
 
-<% if current_user = @street_art.user %>
+<% if current_user = @street_art.user_id %>
   <%= link_to 'Edit', edit_street_art_path(@street_art) %>
-  <%= link_to 'Delete', street_art, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Delete', @street_art, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

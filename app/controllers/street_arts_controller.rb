@@ -25,6 +25,7 @@ class StreetArtsController < ApplicationController
   # POST /street_arts.json
   def create
     @street_art = StreetArt.new(street_art_params)
+    @street_art.user = current_user
 
     respond_to do |format|
       if @street_art.save
