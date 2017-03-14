@@ -31,7 +31,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to @like.street_art, notice: 'Like was successfully created.' }
+        format.html { redirect_to street_arts_url, notice: 'Like was successfully created.' }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
