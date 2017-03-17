@@ -5,7 +5,9 @@ class LikesController < ApplicationController
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.all
+    @user = current_user
+    @likes = Like.where(user_id: @user.id)
+    @street_arts = @likes.map { |like| StreetArt.find(like.street_art_id)  }
   end
 
   # GET /likes/1
