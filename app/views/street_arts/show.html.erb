@@ -1,9 +1,10 @@
 <div class="jumbotron">
 
-  <h3>
-    <strong>Title:</strong>
-    <%= @street_art.title %>
-  </h3>
+  <h1>
+    <strong>
+      <%= @street_art.title %>
+    </strong>
+  </h1>
 
   <br>
 
@@ -20,13 +21,12 @@
     </h3>
   <% end %>
 
-
-  <%= image_tag(@street_art.image_url.to_s) %>
+  <%= image_tag(@street_art.image_url.to_s, class: "img-responsive") %>
 
   <style>
   #map {
-    width: 50%;
-    height: 200px;
+    width: auto;
+    height: 300px;
     background-color: grey;
   }
   </style>
