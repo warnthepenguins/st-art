@@ -1,29 +1,33 @@
-<h1>Street Arts</h1>
+<div class="jumbotron">
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="1"></th>
-      <th>Title</th>
-      <th>Artist</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
+  <h1>Street Arts</h1>
 
-  <tbody>
-    <% @street_arts.each do |street_art| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= image_tag(street_art.image_url(:thumb).to_s) %></td>
-        <td><%= street_art.title %></td>
-        <td><%= street_art.artist %></td>
-        <td><%= link_to 'Show', street_art %></td>
+        <th colspan="1"></th>
+        <th>Title</th>
+        <th>Artist</th>
+        <th colspan="1"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @street_arts.each do |street_art| %>
+        <tr>
+          <td><%= image_tag(street_art.image_url(:thumb).to_s) %></td>
+          <td><%= street_art.title %></td>
+          <td><%= street_art.artist %></td>
+          <td><%= link_to 'Show', street_art %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<% if user_signed_in? %>
-  <%= link_to 'New Street Art', new_street_art_path %>
-<% end %>
+  <br>
+
+  <% if user_signed_in? %>
+    <%= link_to 'New Street Art', new_street_art_path %>
+  <% end %>
+
+</div>
