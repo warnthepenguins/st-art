@@ -15,11 +15,31 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li><%= link_to 'Home', root_path %></li>
-          <li><%= link_to 'Likes', user_likes_url(current_user) %></li>
-          <li><%= link_to 'New Street Art', new_street_art_path %></li>
-          <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+          <li>
+            <%= link_to root_path do %>
+              <span class="glyphicon glyphicon-home"></span> Home
+            <% end %>
+          </li>
+          <li>
+            <%= link_to user_likes_url(current_user) do %>
+              <span class="glyphicon glyphicon-heart"></span> My Likes
+            <% end %>
+          </li>
+          <li>
+            <%= link_to new_street_art_path do %>
+              <span class="glyphicon glyphicon-plus"></span> New Street Art
+            <% end %>
+          </li>
+          <li>
+            <%= link_to edit_user_registration_path do %>
+              <span class="glyphicon glyphicon-user"></span> Edit Profile
+            <% end %>
+          </li>
+          <li>
+            <%= link_to destroy_user_session_path do %>
+              <span class="glyphicon glyphicon-log-out"></span> Logout
+            <% end %>
+          </li>
         <% else %>
           <li><%= link_to 'Sign Up', new_user_registration_path %></li>
           <li><%= link_to 'Login', new_user_session_path %></li>
