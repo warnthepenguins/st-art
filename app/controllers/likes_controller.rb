@@ -5,7 +5,12 @@ class LikesController < ApplicationController
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.all
+    # @user = current_user
+    # @likes = Like.where(user_id: @user.id)
+    # @street_arts = @likes.map { |like| StreetArt.find(like.street_art_id)  }
+    @user = current_user
+    @street_arts = StreetArt.where(id: @user.likes.map(&:street_art_id))
+
   end
 
   # GET /likes/1
@@ -16,6 +21,21 @@ class LikesController < ApplicationController
   # GET /likes/new
   def new
     @like = Like.new(street_art: StreetArt.find(params[:street_art_id]))
+
+    @like = Like.new(like_params)
+    @like.street_art = StreetArt.find(params[:street_art_id])
+    @like.user = current_user
+
+    respond_to do |format|
+      if @like.save
+        format.html { redirect_to street_arts_url, notice: 'Like was successfully created.' }
+        format.json { render :show, status: :created, location: @like }
+      else
+        format.html { render :new }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   # GET /likes/1/edit
