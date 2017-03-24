@@ -49,11 +49,10 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR1YVwH0oFBINVt8v5QS_j4TF68oTAVH0&callback=initMap">
     </script>
 
-  <%= link_to 'Back', street_arts_path %>
-
-  <% if user_signed_in? && if current_user = @street_art.user %>
+  <% if user_signed_in? && current_user == @street_art.user %>
     <%= link_to 'Edit', edit_street_art_path(@street_art) %>
     <%= link_to 'Delete', @street_art, method: :delete, data: { confirm: 'Are you sure?' } %>
   <% end %>
-  <% end %>
+  <br>
+  <%= link_to 'Back', street_arts_path %>
 </div>
