@@ -27,7 +27,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to street_arts_url, notice: 'Like was successfully created.' }
+        format.html { redirect_to street_arts_url, notice: 'Street art added to your list.' }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
@@ -50,7 +50,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to street_arts_url, notice: 'Like was successfully created.' }
+        format.html { redirect_to street_arts_url, notice: 'Street art added to your list.' }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
@@ -64,7 +64,7 @@ class LikesController < ApplicationController
   def update
     respond_to do |format|
       if @like.update(like_params)
-        format.html { redirect_to @like, notice: 'Like was successfully updated.' }
+        format.html { redirect_to @like, notice: 'Street art added to your list.' }
         format.json { render :show, status: :ok, location: @like }
       else
         format.html { render :edit }
@@ -78,7 +78,7 @@ class LikesController < ApplicationController
   def destroy
     @like.destroy
     respond_to do |format|
-      format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
+      format.html { redirect_to likes_url, notice: 'Street art removed from your list.' }
       format.json { head :no_content }
     end
   end

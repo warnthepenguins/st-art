@@ -1,58 +1,72 @@
 <div class="jumbotron">
+  <div class="panel-body">
+    <%= link_to '< Back', street_arts_path %>
+  </div>
 
-  <h1>
-    <strong>
-      <%= @street_art.title %>
-    </strong>
-  </h1>
-
-  <br>
-
-  <h3>
-    <strong>Artist:</strong>
-    <%= @street_art.artist %>
-  </h3>
-
-  <% if user_signed_in? %>
-    <h3>
-      <strong>
-        <%= link_to 'Like', new_street_art_like_path(@street_art) %>
-      </strong>
-    </h3>
-  <% end %>
-
-  <%= image_tag(@street_art.image_url.to_s, class: "img-responsive") %>
-
-  <style>
-  #map {
-    width: auto;
-    height: 300px;
-    background-color: grey;
-  }
-  </style>
-  <p><br></p>
-    <div id="map"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: <%= @street_art.latitude %>, lng: <%= @street_art.longitude %>};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 18,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR1YVwH0oFBINVt8v5QS_j4TF68oTAVH0&callback=initMap">
-    </script>
+  <div class="panel-heading">
+    <div class="panel-title">
+      <h1>
+        <strong>
+          <%= @street_art.title %>
+        </strong>
+      </h1>
+    </div>
+  </div>
 
   <% if user_signed_in? && current_user == @street_art.user %>
-    <%= link_to 'Edit', edit_street_art_path(@street_art) %>
-    <%= link_to 'Delete', @street_art, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <div class="panel-body">
+      <%= link_to edit_street_art_path(@street_art) do %>
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit
+      <% end %>
+      <%= link_to @street_art, method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <i class="fa fa-trash" aria-hidden="true"></i>Delete
+      <% end %>
+    </div>
   <% end %>
-  <br>
-  <%= link_to 'Back', street_arts_path %>
+
+  <div class="panel-body">
+    <% if user_signed_in? && current_user.likes.map(&:street_art).exclude?(@street_art) %>
+      <h3>
+        <strong>
+          <%= link_to 'Like', new_street_art_like_path(@street_art) %>
+        </strong>
+      </h3>
+    <% end %>
+
+    <h3>
+      <strong>Artist:</strong>
+      <%= @street_art.artist %>
+    </h3>
+
+    <%= image_tag(@street_art.image_url.to_s, class: "img-responsive") %>
+
+    <% if @street_art.latitude != nil && @street_art.longitude != nil %>
+      <style>
+      #map {
+        width: auto;
+        height: 300px;
+        background-color: grey;
+      }
+      </style>
+      <p><br></p>
+        <div id="map"></div>
+        <script>
+          function initMap() {
+            var uluru = {lat: <%= @street_art.latitude %>, lng: <%= @street_art.longitude %>};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 18,
+              center: uluru
+            });
+            var marker = new google.maps.Marker({
+              position: uluru,
+              map: map
+            });
+          }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR1YVwH0oFBINVt8v5QS_j4TF68oTAVH0&callback=initMap">
+        </script>
+    <% end %>
+
+  </div>
 </div>

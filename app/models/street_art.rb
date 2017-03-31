@@ -1,5 +1,5 @@
 class StreetArt < ApplicationRecord
-  has_many :likes
+  has_many :likes, dependent: :destroy
   belongs_to :user
 
   mount_uploader :image, ImageUploader
