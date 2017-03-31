@@ -10,7 +10,6 @@ class LikesController < ApplicationController
     # @street_arts = @likes.map { |like| StreetArt.find(like.street_art_id)  }
     @user = current_user
     @street_arts = StreetArt.where(id: @user.likes.map(&:street_art_id))
-
   end
 
   # GET /likes/1
