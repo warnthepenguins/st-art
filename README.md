@@ -1,3 +1,3 @@
 # README
 
-App for searching street arts
+App for discovering arts around you.

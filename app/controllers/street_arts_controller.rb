@@ -70,6 +70,6 @@ class StreetArtsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def street_art_params
-      params.require(:street_art).permit(:title, :artist, :image, :longitude, :latitude)
+      params.require(:street_art).permit(:title, :artist, :image, :address, :museum)
     end
 end
