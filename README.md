@@ -1,3 +1,3 @@
 # README
 
-App for discovering arts around you.
+App for discovering art around you.
