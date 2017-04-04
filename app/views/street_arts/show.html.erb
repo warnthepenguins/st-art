@@ -53,7 +53,7 @@
             center: address,
             zoom: 18
           });
-          var contentString = '<div id="content">' + '<h4> <%= @street_art.museum %></h4>' + '<div id="bodyContent">' + '<small><%= @street_art.address.titleize %></small>' + '</div>' +'</div>';
+          var contentString = '<div id="content">' + '<h4><%= @street_art.museum %></h4>' + '<div id="bodyContent">' + '<small><%= @street_art.address.titleize %></small>' + '</div>' + '</div>';
           var infowindow = new google.maps.InfoWindow({
             content: contentString,
           });
