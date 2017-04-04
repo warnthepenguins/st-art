@@ -39,7 +39,7 @@
     </h3>
 
     <%= image_tag(@street_art.image_url.to_s, class: "img-responsive") %>
-
+    <br />
     <% if @street_art.address != nil %>
       <div id="map"></div>
 
@@ -52,6 +52,18 @@
           var map = new google.maps.Map(document.getElementById('map'), {
             center: address,
             zoom: 18
+          });
+          var contentString = '<div id="content">' + '<h4> <%= @street_art.museum %></h4>' + '<div id="bodyContent">' + '<small><%= @street_art.address.titleize %></small>' + '</div>' +'</div>';
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+          });
+          var marker = new google.maps.Marker({
+            position: address,
+            map: map,
+            title: '<% @street_art.museum %>'
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
           });
         }
       </script>
