@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-default" role="navigation">
+<nav class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -16,18 +16,13 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li>
-            <%= link_to root_path do %>
-              <span class="glyphicon glyphicon-home"></span> Home
-            <% end %>
-          </li>
-          <li>
             <%= link_to likes_url(current_user) do %>
               <span class="glyphicon glyphicon-heart"></span> My Likes
             <% end %>
           </li>
           <li>
             <%= link_to new_street_art_path do %>
-              <span class="glyphicon glyphicon-plus"></span> New Street Art
+              <span class="glyphicon glyphicon-plus"></span> New Art
             <% end %>
           </li>
           <li>
@@ -42,7 +37,7 @@
           </li>
         <% else %>
           <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-          <li><%= link_to 'Login', new_user_session_path %></li>
+          <li><%= link_to 'Sign In', new_user_session_path %></li>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
