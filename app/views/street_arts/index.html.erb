@@ -3,9 +3,9 @@
     <div class="box panel panel-default">
       <%= link_to image_tag(street_art.image_url(:thumb).to_s), street_art %>
       <div class="panel-body">
-        <%= link_to street_art.title, street_art %>
-        <%= street_art.artist %>
-        <% if user_signed_in? && current_user == street_art.user %>
+        <%= link_to street_art.title.titleize, street_art %>
+        <%= street_art.artist.titleize %>
+        <% if current_user == street_art.user || current_user.try(:admin?) %>
           <%= link_to edit_street_art_path(street_art) do %>
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           <% end %>

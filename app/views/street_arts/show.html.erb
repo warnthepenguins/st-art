@@ -7,13 +7,13 @@
     <div class="panel-title">
       <h1>
         <strong>
-          <%= @street_art.title %>
+          <%= @street_art.title.titleize %>
         </strong>
       </h1>
     </div>
   </div>
 
-  <% if user_signed_in? && current_user == @street_art.user %>
+  <% if current_user == @street_art.user || current_user.try(:admin?) %>
     <div class="panel-body">
       <%= link_to edit_street_art_path(@street_art) do %>
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit
@@ -35,12 +35,12 @@
 
     <h3>
       <strong>Artist:</strong>
-      <%= @street_art.artist %>
+      <%= @street_art.artist.titleize %>
     </h3>
 
     <%= image_tag(@street_art.image_url.to_s, class: "img-responsive") %>
     <br />
-    
+
     <% if @street_art.address != nil %>
       <div id="map"></div>
 
@@ -52,9 +52,9 @@
           };
           var map = new google.maps.Map(document.getElementById('map'), {
             center: address,
-            zoom: 18
+            zoom: 16
           });
-          var contentString = '<div id="content">' + '<h4><%= @street_art.museum %></h4>' + '<div id="bodyContent">' + '<small><%= @street_art.address.titleize %></small>' + '</div>' + '</div>';
+          var contentString = '<div id="content">' + '<h4><%= @street_art.museum.titleize %></h4>' + '<div id="bodyContent">' + '<small><%= @street_art.address.titleize %></small>' + '</div>' + '</div>';
           var infowindow = new google.maps.InfoWindow({
             content: contentString,
           });

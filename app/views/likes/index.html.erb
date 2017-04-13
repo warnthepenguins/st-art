@@ -8,59 +8,76 @@
   </div>
 </div>
 
-<div class="jumbotron">
-  <div id="map" class="likes-map"></div>
-  <script>
+<style>
+   #map {
+    height: 600px;
+    width: auto;
+   }
+</style>
 
-    function initMap() {
+<% if current_user.likes.first == nil %>
+  <div class="panel-title">
+    <h3>
+      <span class="glyphicon glyphicon-exclamation-sign"></span>
+      Please add artwork to see them on a map
+    </h3>
+  </div>
+  <br />
+<% end %>
 
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: {lat: 42.3604, lng: -71.0580}
+<div id="map" class="likes-map"></div>
+<script>
+
+  function initMap() {
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: {lat: 42.3604, lng: -71.0580}
+    });
+
+    var infoWin = new google.maps.InfoWindow();
+
+    // Add some markers to the map.
+    // Note: The code uses the JavaScript Array.prototype.map() method to
+    // create an array of markers based on a given "locations" array.
+    // The map() method here has nothing to do with the Google Maps API.
+    var markers = locations.map(function(location, i) {
+      var marker = new google.maps.Marker({
+        position: location,
       });
+      google.maps.event.addListener(marker, 'click', function(evt) {
+        infoWin.setContent(location.info);
+        infoWin.open(map, marker);
+      })
+      return marker;
+    });
 
-      var infoWin = new google.maps.InfoWindow();
+    // Add a marker clusterer to manage the markers.
+    var markerCluster = new MarkerClusterer(map, markers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+  }
+  var locations = [
+    <% @street_arts.each do |street_art| %>
+    {lat: <%= street_art.latitude %>, lng: <%= street_art.longitude %>, info: '<div class="panel-title">' + '<%= link_to street_art.title.titleize, like_url(@user.likes.where(street_art_id: street_art).map(&:id)) %>' + '</div>' + '<div class="panel-default">' + '<%= street_art.artist.titleize %>' + '<%= link_to like_url(@user.likes.where(street_art_id: street_art).map(&:id)), method: :delete, data: { confirm: 'Are you sure?' } do %>' + '<span class="glyphicon glyphicon-trash"></span>' + '<% end %>' + '</div>' + '<br />' + '<%= link_to image_tag(street_art.image_url(:thumb).to_s), like_url(@user.likes.where(street_art_id: street_art).map(&:id)) %>'},
+    <% end %>
+  ];
 
-      // Add some markers to the map.
-      // Note: The code uses the JavaScript Array.prototype.map() method to
-      // create an array of markers based on a given "locations" array.
-      // The map() method here has nothing to do with the Google Maps API.
-      var markers = locations.map(function(location, i) {
-        var marker = new google.maps.Marker({
-          position: location,
-        });
-        google.maps.event.addListener(marker, 'click', function(evt) {
-          infoWin.setContent(location.info);
-          infoWin.open(map, marker);
-        })
-        return marker;
-      });
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPrvzSC1NSyD5x5GIXi33wlkPa6-HL0Ac&callback=initMap">
+</script>
 
-      // Add a marker clusterer to manage the markers.
-      var markerCluster = new MarkerClusterer(map, markers,
-          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-    }
-    var locations = [
-      <% @street_arts.each do |street_art| %>
-      {lat: <%= street_art.latitude %>, lng: <%= street_art.longitude %>, info: '<%= link_to image_tag(street_art.image_url(:thumb).to_s), street_art %>'},
-      <% end %>
-    ];
-
-  </script>
-  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-  </script>
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPrvzSC1NSyD5x5GIXi33wlkPa6-HL0Ac&callback=initMap">
-  </script>
-</div>
+<br />
 
 <div id="street_arts" class="transitions-enabled">
   <% @street_arts.each do |street_art| %>
     <div class="box panel panel-default">
       <%= link_to image_tag(street_art.image_url(:thumb).to_s), like_url(@user.likes.where(street_art_id: street_art).map(&:id)) %>
       <div class="panel-body">
-        <%= link_to street_art.title, street_art %>
-        <%= street_art.artist %>
+        <%= link_to street_art.title.titleize, like_url(@user.likes.where(street_art_id: street_art).map(&:id)) %>
+        <%= street_art.artist.titleize %>
         <%= link_to like_url(@user.likes.where(street_art_id: street_art).map(&:id)), method: :delete, data: { confirm: 'Are you sure?' } do %>
           <span class="glyphicon glyphicon-trash"></span>
         <% end %>
