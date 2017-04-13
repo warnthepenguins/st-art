@@ -7,7 +7,7 @@
     <div class="panel-title">
       <h1>
         <strong>
-          <%= @like.street_art.title %>
+          <%= @like.street_art.title.titleize %>
         </strong>
       </h1>
       <%= link_to like_url(Like.where(street_art_id: @like.street_art).map(&:id)), method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -20,7 +20,7 @@
 
     <h3>
       <strong>Artist:</strong>
-      <%= @like.street_art.artist %>
+      <%= @like.street_art.artist.titleize %>
     </h3>
 
     <%= image_tag(@like.street_art.image_url.to_s, class: "img-responsive") %>
@@ -37,9 +37,9 @@
           };
           var map = new google.maps.Map(document.getElementById('map'), {
             center: address,
-            zoom: 18
+            zoom: 16
           });
-          var contentString = '<div id="content">' + '<h4><%= @like.street_art.museum %></h4>' + '<div id="bodyContent">' + '<small><%= @like.street_art.address.titleize %></small>' + '</div>' + '</div>';
+          var contentString = '<div id="content">' + '<h4><%= @like.street_art.museum.titleize %></h4>' + '<div id="bodyContent">' + '<small><%= @like.street_art.address.titleize %></small>' + '</div>' + '</div>';
           var infowindow = new google.maps.InfoWindow({
             content: contentString,
           });
