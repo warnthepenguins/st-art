@@ -5,7 +5,7 @@
       <div class="panel-body">
         <%= link_to street_art.title, street_art %>
         <%= street_art.artist %>
-        <% if user_signed_in? && current_user == street_art.user %>
+        <% if current_user == street_art.user || current_user.try(:admin?) %>
           <%= link_to edit_street_art_path(street_art) do %>
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           <% end %>
