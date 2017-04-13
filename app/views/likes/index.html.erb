@@ -57,7 +57,7 @@
 <div id="street_arts" class="transitions-enabled">
   <% @street_arts.each do |street_art| %>
     <div class="box panel panel-default">
-      <%= link_to image_tag(street_art.image_url(:thumb).to_s), street_art %>
+      <%= link_to image_tag(street_art.image_url(:thumb).to_s), like_url(@user.likes.where(street_art_id: street_art).map(&:id)) %>
       <div class="panel-body">
         <%= link_to street_art.title, street_art %>
         <%= street_art.artist %>
