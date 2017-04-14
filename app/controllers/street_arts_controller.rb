@@ -4,7 +4,11 @@ class StreetArtsController < ApplicationController
   # GET /street_arts
   # GET /street_arts.json
   def index
-    @street_arts = StreetArt.all
+    if params[:search]
+      @street_arts = StreetArt.where(:title =~ /[^|\s]#{params[:search]}[\s|$]/)
+    else
+      @street_arts = StreetArt.all
+    end
   end
 
   # GET /street_arts/1
