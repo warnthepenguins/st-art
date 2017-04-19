@@ -1,11 +1,20 @@
-<div class="input-group">
-  <%= form_tag(street_arts_path, :method => "get") do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search Artwork", class: 'form-control' %>
-    <span class="input-group-btn">
-      <%= submit_tag "Search", class: 'btn btn-default' %>
-    </span>
+<div class="row">
+  <%= form_tag(street_arts_path, :method => "get", id: "search-form") do %>
+    <div class="col-xs-8 col-md-4">
+      <%= text_field_tag :search, params[:search], placeholder: "Search Artwork", class: 'form-control' %>
+    </div>
+    <div class="col-xs-4 col-md-4">
+      <%= submit_tag "Search", :name => nil, class: "btn btn-primary" %>
+    </div>
   <% end %>
 </div>
+
+<br />
+
+<!-- <%= form_tag(street_arts_path, :method => "get", id: "search-form") do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Search Artworks" %>
+  <%= submit_tag "Search", :name => nil %>
+<% end %> -->
 
 <div id="street_arts" class="transitions-enabled">
   <% @street_arts.each do |street_art| %>
