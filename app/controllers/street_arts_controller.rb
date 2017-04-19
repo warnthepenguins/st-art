@@ -5,6 +5,16 @@ class StreetArtsController < ApplicationController
   # GET /street_arts.json
   def index
     @street_arts = StreetArt.all
+    if params[:search]
+      @street_arts = StreetArt.search(params[:search]).order("title")
+    else
+      @street_arts = StreetArt.all.order("title")
+    end
+    # if params[:search]
+    #   @street_arts = StreetArt.where(:title =~ /[^|\s]#{params[:search]}[\s|$]/)
+    # else
+    #   @street_arts = StreetArt.all
+    # end
   end
 
   # GET /street_arts/1
@@ -25,6 +35,7 @@ class StreetArtsController < ApplicationController
   # POST /street_arts.json
   def create
     @street_art = StreetArt.new(street_art_params)
+    @street_art.user = current_user
 
     respond_to do |format|
       if @street_art.save
@@ -69,6 +80,6 @@ class StreetArtsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def street_art_params
-      params.require(:street_art).permit(:title, :artist, :image, :longitude, :latitude)
+      params.require(:street_art).permit(:title, :artist, :image, :address, :museum)
     end
 end

@@ -1,4 +1,4 @@
-<%= form_for(like) do |f| %>
+<%= form_for [like.street_art, like] do |f| %>
   <% if like.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(like.errors.count, "error") %> prohibited this like from being saved:</h2>

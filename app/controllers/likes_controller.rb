@@ -1,10 +1,15 @@
 class LikesController < ApplicationController
   before_action :set_like, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.all
+    # @user = current_user
+    # @likes = Like.where(user_id: @user.id)
+    # @street_arts = @likes.map { |like| StreetArt.find(like.street_art_id)  }
+    @user = current_user
+    @street_arts = StreetArt.where(id: @user.likes.map(&:street_art_id))
   end
 
   # GET /likes/1
@@ -14,7 +19,22 @@ class LikesController < ApplicationController
 
   # GET /likes/new
   def new
-    @like = Like.new
+    @like = Like.new(street_art: StreetArt.find(params[:street_art_id]))
+
+    @like = Like.new(like_params)
+    @like.street_art = StreetArt.find(params[:street_art_id])
+    @like.user = current_user
+
+    respond_to do |format|
+      if @like.save
+        format.html { redirect_to street_arts_url, notice: 'Street art added to your list.' }
+        format.json { render :show, status: :created, location: @like }
+      else
+        format.html { render :new }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   # GET /likes/1/edit
@@ -25,10 +45,12 @@ class LikesController < ApplicationController
   # POST /likes.json
   def create
     @like = Like.new(like_params)
+    @like.street_art = StreetArt.find(params[:street_art_id])
+    @like.user = current_user
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to @like, notice: 'Like was successfully created.' }
+        format.html { redirect_to street_arts_url, notice: 'Street art added to your list.' }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new }
@@ -42,7 +64,7 @@ class LikesController < ApplicationController
   def update
     respond_to do |format|
       if @like.update(like_params)
-        format.html { redirect_to @like, notice: 'Like was successfully updated.' }
+        format.html { redirect_to @like, notice: 'Street art added to your list.' }
         format.json { render :show, status: :ok, location: @like }
       else
         format.html { render :edit }
@@ -56,7 +78,7 @@ class LikesController < ApplicationController
   def destroy
     @like.destroy
     respond_to do |format|
-      format.html { redirect_to likes_url, notice: 'Like was successfully destroyed.' }
+      format.html { redirect_to likes_url, notice: 'Street art removed from your list.' }
       format.json { head :no_content }
     end
   end

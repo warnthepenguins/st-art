@@ -1,4 +1,60 @@
-<p id="notice"><%= notice %></p>
+<div class="jumbotron">
+  <div class="panel-body">
+    <%= link_to '< Back to My Likes', likes_url %>
+  </div>
 
-<%= link_to 'Edit', edit_like_path(@like) %> |
-<%= link_to 'Back', likes_path %>
+  <div class="panel-heading">
+    <div class="panel-title">
+      <h1>
+        <strong>
+          <%= @like.street_art.title.titleize %>
+        </strong>
+      </h1>
+      <%= link_to like_url(Like.where(street_art_id: @like.street_art).map(&:id)), method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <span class="glyphicon glyphicon-trash"></span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+
+    <h3>
+      <strong>Artist:</strong>
+      <%= @like.street_art.artist.titleize %>
+    </h3>
+
+    <%= image_tag(@like.street_art.image_url.to_s, class: "img-responsive") %>
+    <br />
+
+    <% if @like.street_art.address != nil %>
+      <div id="map"></div>
+
+      <script>
+        function initMap() {
+          var geocoder = new google.maps.Geocoder();
+          var address = {
+            lat:<%= @like.street_art.latitude %>, lng:<%= @like.street_art.longitude %>
+          };
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: address,
+            zoom: 16
+          });
+          var contentString = '<div id="content">' + '<h4><%= @like.street_art.museum.titleize %></h4>' + '<div id="bodyContent">' + '<small><%= @like.street_art.address.titleize %></small>' + '</div>' + '</div>';
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+          });
+          var marker = new google.maps.Marker({
+            position: address,
+            map: map,
+            title: '<% @like.street_art.museum %>'
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPrvzSC1NSyD5x5GIXi33wlkPa6-HL0Ac&callback=initMap"></script>
+    <% end %>
+
+  </div>
+</div>
